@@ -1,0 +1,94 @@
+<ion-header *ngIf="isUserLoggedIn" >
+  <ion-toolbar style="--background : #1C103C">
+      <ion-buttons slot="start" >
+          <ion-menu-button autoHide="false" style="color: #B4B6B5">
+          </ion-menu-button>
+        </ion-buttons>
+      
+      <ion-row>
+          <!-- <ion-col size="1">
+          
+                  <ion-icon name="menu" style="zoom:1.8;margin-top:8px; color: #B4B6B5" ></ion-icon>
+              
+          </ion-col> -->
+          <ion-col size="10">
+              <ion-searchbar animated style="--background:white"> </ion-searchbar>
+          </ion-col>
+          <ion-col size="1">
+              <ion-icon name="notifications" style="zoom:1.8; margin-top: 8px; color: #B4B6B5"  ></ion-icon>
+          </ion-col>
+        </ion-row>
+  </ion-toolbar>
+  </ion-header>
+
+  <ion-menu contentId="content1" side="start" *ngIf="isUserLoggedIn" style="--max-height:1200px;">
+      <ion-header>
+         
+            <ion-item   [routerLink]="['/profile-details', userInfo.phoneNumber]"> 
+                <ion-avatar slot="start">
+                  <img src="{{profileimage}}" >
+                </ion-avatar>
+                <ion-label>
+                  <h1>{{username}}</h1>
+                  <h3>{{userInfo.phoneNumber}}</h3>
+
+                </ion-label>
+              </ion-item>
+      
+        </ion-header>
+    <ion-content>
+        <ion-list>
+          <ion-item >
+              <ion-label  (click)="logout()" style = "margin-right: 10px;">LogOut</ion-label> 
+              <ion-icon name="log-out" (click)="logout()"></ion-icon>
+          </ion-item>
+          <!-- <ion-button   (click)="logout()">logout</ion-button> -->
+        </ion-list>
+      </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="content1" main></ion-router-outlet>
+
+
+
+ <ion-content padding>
+   
+  <!-- <p *ngIf="isUserLoggedIn">Phone Number: {{userInfo.phoneNumber}}</p>  -->
+  <!-- <ion-button *ngIf="!isUserLoggedIn" (click)="register()">Register</ion-button>  -->
+  <!-- <ion-button *ngIf="isUserLoggedIn"  (click)="logout()">logout</ion-button>  -->
+  <h1 *ngIf="!isUserLoggedIn" style = "text-align: center; margin-top: 140px;font-size: 35px;color: #1C103C"> I N Z A C K </h1>
+  <h3  *ngIf="!isUserLoggedIn" style = "text-align: center; margin-top: 5px;font-size: 15px; color: #88807C; " >Everyone is on their own journey. </h3>
+
+  <br>
+  <div *ngIf="isUserLoggedIn">
+  <ng-container *ngIf="progress | async as percent">
+
+    <progress [value]="percent" max="100"></progress>
+  
+  </ng-container>
+ <br>
+ 
+  <br>
+  <ion-icon *ngIf="isUserLoggedIn" name="camera" (click)="uploadHandler()" style="zoom:2.0; margin-right:20px;">camera</ion-icon>
+  <app-video *ngIf="isUserLoggedIn" [phone]=userInfo.phoneNumber></app-video>
+  <br> 
+</div>
+   
+     <br>
+     <div *ngIf="data">
+      <div *ngFor='let img of data'>
+          <ion-img    src= "{{ img.src }}" style="width: 150px; height: 150px; margin-bottom: 30px;" *ngIf="img.type === 'image'"></ion-img>
+       
+        
+         <video width="320" height="240" controls *ngIf="img.type=='video'">
+              <source [src]='sanitizer.bypassSecurityTrustResourceUrl(img.src)'  type="video/mp4">
+          </video> 
+      </div>
+      
+    </div> 
+
+</ion-content> 
+
+<ion-footer *ngIf="!isUserLoggedIn" text-center style="margin-bottom:60px">
+  <ion-button shape="round"  style=" --background: #1C103C;" (click)="register()">Login</ion-button>
+  <h3 style = "font-size: 15px; color: #1C103C; ">Terms of use.Privacy Policy </h3>
+</ion-footer>

@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>profile-details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+   <br>
+    Profile Name:<ion-input placeholder="Enter Input" [(ngModel)]="username"></ion-input>
+    <br>
+    <ng-container *ngIf="progress | async as percent">
+
+        <progress [value]="percent" max="100"></progress>
+      
+      </ng-container>
+     <br>
+   
+      
+      <ion-icon name="camera" (click)="uploadHandler()" style="zoom:2.0;">camera</ion-icon>
+      <br>
+      
+        <ion-img [src]="imgsrc" style="width: 100px; height: 100px;" ></ion-img>
+  
+</ion-content>
